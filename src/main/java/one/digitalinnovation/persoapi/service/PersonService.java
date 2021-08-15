@@ -4,11 +4,13 @@ import lombok.RequiredArgsConstructor;
 import one.digitalinnovation.persoapi.dto.request.PersonDTO;
 import one.digitalinnovation.persoapi.dto.response.MessageResponseDTO;
 import one.digitalinnovation.persoapi.entity.Person;
+import one.digitalinnovation.persoapi.exception.PersonNotFoundException;
 import one.digitalinnovation.persoapi.mapper.PersonMapper;
 import one.digitalinnovation.persoapi.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,4 +35,9 @@ public class PersonService {
                 .collect(Collectors.toList());
     }
 
+    public PersonDTO findById(Long id) throws PersonNotFoundException {
+        Person person = this.personRepository.findById(id)
+                .orElseThrow(() -> new PersonNotFoundException(id));
+        return PersonMapper.INSTANCE.toDTO(person);
+    }
 }
