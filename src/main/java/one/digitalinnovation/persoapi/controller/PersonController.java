@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -21,4 +22,10 @@ public class PersonController {
     public MessageResponseDTO createPerson(@RequestBody @Valid PersonDTO personDTO) {
         return this.personService.createPerson(personDTO);
     }
+
+    @GetMapping
+    public List<PersonDTO> listAll() {
+        return this.personService.listAll();
+    }
+
 }
